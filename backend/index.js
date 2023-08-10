@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = 5000
 const mongoDB=require("./db")
+const path =require('path')
 
 
 mongoDB();
@@ -23,6 +24,12 @@ app.use(express.json());
 app.use("/api" , require("./routes/createUser"));
 app.use("/api" , require("./routes/DisplayData"));
 app.use("/api" , require("./routes/OrderData"));
+
+app.use(express.static(path.join(__dirname ,'./build')))
+app.get("*" , function(req ,res){
+  res.sendFile(path.join(__dirname ,'./build/index.html'));
+});
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
 })
